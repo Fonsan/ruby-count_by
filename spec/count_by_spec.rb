@@ -29,7 +29,7 @@ describe 'Enumerable#count_by' do
 
   context 'when there is no block' do
     it 'returns an enumerator' do
-      [].count_by.should be_a Enumerator
+      [].count_by.should be_a Hash
     end
 
     context 'when receiver is empty' do
@@ -41,18 +41,16 @@ describe 'Enumerable#count_by' do
 
     context 'when receiver is [1, 2, 2, 3]' do
       let(:receiver) { [1, 2, 2, 3] }
-      context 'result of count_by(&ID) with enumerator' do
+      context 'result of count_by' do
         subject do
-          enum = receiver.count_by
-          enum.each(&ID)
+          receiver.count_by
         end
         it { should == { 1 => 1, 2 => 2, 3 => 1} }
       end
 
-      context 'result of count_by{|x| x % 2} with enumerator' do
+      context 'result of count_by{|x| x % 2}' do
         subject do
-          enum = receiver.count_by
-          enum.each{|x| x % 2}
+          receiver.count_by {|x| x % 2}
         end
         it { should == { 1 => 2, 0 => 2} }
       end
